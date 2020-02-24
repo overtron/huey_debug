@@ -44,4 +44,4 @@ services:
     depends_on:
       - django
       - redis
-    command: python manage.py run_hueyx -v 3 general
+    command: python manage.py run_huey

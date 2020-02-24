@@ -71,7 +71,7 @@ THIRD_PARTY_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "rest_framework",
-    'hueyx',
+    'huey.contrib.djhuey'
 ]
 
 LOCAL_APPS = [
@@ -277,16 +277,5 @@ REDIS_CONN_POOL = ConnectionPool(
     db=env('REDIS_DB'),
     max_connections=env.int('REDIS_MAX_CONNECTIONS', 20))
 
-GENERAL_QUEUE = 'general'
-HUEYX = {
-    GENERAL_QUEUE: {
-        'connection': {
-            'connection_pool': REDIS_CONN_POOL
-        },
-        'consumer': {
-            'multiple_scheduler_locking': True,
-            'workers': 1,
-            'worker_type': 'thread',
-        }
-    },
-}
+from huey import RedisHuey
+HUEY = RedisHuey('my-app', connection_pool=REDIS_CONN_POOL)

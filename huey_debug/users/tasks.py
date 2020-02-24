@@ -1,12 +1,11 @@
-from hueyx.queues import hueyx
+from huey.contrib.djhuey import task
 from django.conf import settings
 
-HUEY = hueyx(settings.GENERAL_QUEUE)
 
-@HUEY.task()
+@task()
 def task1():
     pass
 
-@HUEY.task()
+@task()
 def task2():
     pass

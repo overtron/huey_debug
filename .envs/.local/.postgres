@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=huey_debug
+POSTGRES_USER=LXoSxzCiQaMkRhMMqBfNCVFCanlLrqeC
+POSTGRES_PASSWORD=7G1a88wn53g4n1iAOWw85ozCNG2XFxE75JoWyDEJy7QsunYJnywHSxtqP9R0uYkS

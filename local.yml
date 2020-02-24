@@ -1,0 +1,47 @@
+version: '3'
+
+volumes:
+  huey_local_postgres_data: {}
+  huey_local_postgres_data_backups: {}
+
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    image: huey_debug_local_django
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: /start
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: huey_debug_production_postgres
+    volumes:
+      - huey_local_postgres_data:/var/lib/postgresql/data
+      - huey_local_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.local/.postgres
+
+  redis:
+    restart: on-failure
+    image: redis:5.0.7
+    command: [sh, -c, "rm -f /data/dump.rdb && redis-server"]  # disable persistence
+
+  huey-general-worker:
+    <<: *django
+    image: huey_debug_local_django
+    ports: []
+    depends_on:
+      - django
+      - redis
+    command: python manage.py run_hueyx -v 3 general
